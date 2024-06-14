@@ -12,6 +12,8 @@ import {IStaticATokenLM} from '../src/interfaces/IStaticATokenLM.sol';
 import {SigUtils} from './SigUtils.sol';
 import {BaseTest} from './TestBase.sol';
 
+import {RewardsControllerWithMigrate} from './RewardsControllerWithMigrate.sol';
+
 contract StaticATokenLMTest is BaseTest {
   using RayMathExplicitRounding for uint256;
 
@@ -30,6 +32,12 @@ contract StaticATokenLMTest is BaseTest {
   function setUp() public override {
     vm.createSelectFork(vm.rpcUrl('avalanche'), 38011791);
     rewardTokens.push(0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7);
+
+    address rewardsControllerWithMigrate = address(new RewardsControllerWithMigrate(AaveV3Avalanche.EMISSION_MANAGER));
+    bytes32 REWARDS_PROXY_ADDRESS_ID = keccak256("INCENTIVES_CONTROLLER");
+    vm.startPrank(AaveV3Avalanche.ACL_ADMIN);
+      AaveV3Avalanche.POOL_ADDRESSES_PROVIDER.setAddressAsProxy(REWARDS_PROXY_ADDRESS_ID, rewardsControllerWithMigrate);
+    vm.stopPrank();
 
     super.setUp();
   }
@@ -337,7 +345,8 @@ contract StaticATokenLMTest is BaseTest {
     assertEq(IERC20(REWARD_TOKEN()).balanceOf(user1), claimableUser1);
     assertGt(claimableUser1, 0);
 
-    assertEq(staticATokenLM.getTotalClaimableRewards(REWARD_TOKEN()), 0);
+    // with new calculation there can be 1 wei dust left in rewards
+    assertLe(staticATokenLM.getTotalClaimableRewards(REWARD_TOKEN()), 1);
     assertEq(staticATokenLM.getClaimableRewards(user, REWARD_TOKEN()), 0);
     assertEq(staticATokenLM.getClaimableRewards(user1, REWARD_TOKEN()), 0);
   }

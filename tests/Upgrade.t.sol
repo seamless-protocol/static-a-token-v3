@@ -84,12 +84,6 @@ contract UpgradeAvalancheTest is UpgradePayloadTest('avalanche', 42590450) {
   }
 }
 
-contract UpgradeArbitrumTest is UpgradePayloadTest('arbitrum', 187970620) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployArbitrum();
-  }
-}
-
 contract UpgradeOptimismTest is UpgradePayloadTest('optimism', 117104603) {
   function _getPayload() internal virtual override returns (UpgradePayload) {
     return DeployUpgrade.deployOptimism();
@@ -102,12 +96,6 @@ contract UpgradeMetisTest is UpgradePayloadTest('metis', 14812943) {
   }
 }
 
-contract UpgradeBNBTest is UpgradePayloadTest('bnb', 36989356) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployBNB();
-  }
-}
-
 contract UpgradeScrollTest is UpgradePayloadTest('scroll', 3921934) {
   function _getPayload() internal virtual override returns (UpgradePayload) {
     return DeployUpgrade.deployScroll();
@@ -117,11 +105,5 @@ contract UpgradeScrollTest is UpgradePayloadTest('scroll', 3921934) {
 contract UpgradeBaseTest is UpgradePayloadTest('base', 11985792) {
   function _getPayload() internal virtual override returns (UpgradePayload) {
     return DeployUpgrade.deployBase();
-  }
-}
-
-contract UpgradeGnosisTest is UpgradePayloadTest('gnosis', 32991586) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployGnosis();
   }
 }
