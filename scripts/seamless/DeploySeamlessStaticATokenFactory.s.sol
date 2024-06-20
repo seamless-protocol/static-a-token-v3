@@ -10,7 +10,7 @@ import {Constants} from "./Constants.sol";
 import {IPoolAddressesProvider} from "aave-v3-core/contracts/interfaces/IPoolAddressesProvider.sol";
 import {StaticATokenFactory} from '../../src/StaticATokenFactory.sol';
 
-contract DeployRewardsController is Script {
+contract DeploySeamlessStaticATokenFactory is Script {
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
         address deployerAddress = vm.addr(deployerPrivateKey);

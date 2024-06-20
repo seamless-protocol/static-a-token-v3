@@ -3,9 +3,9 @@ pragma solidity ^0.8.10;
 
 import {Script, console} from "forge-std/Script.sol";
 import {Constants} from "./Constants.sol";
-import {TransparentProxyFactory} from 'solidity-utils/contracts/transparent-proxy/TransparentProxyFactory.sol';
+import {StataOracle} from '../../src/StataOracle.sol';
 
-contract DeployRewardsController is Script {
+contract DeployStataOracle is Script {
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
         address deployerAddress = vm.addr(deployerPrivateKey);
@@ -17,9 +17,9 @@ contract DeployRewardsController is Script {
 
         vm.startBroadcast(deployerPrivateKey);
 
-        TransparentProxyFactory transparentProxyFactory = new TransparentProxyFactory();
+        StataOracle stataOracle = new StataOracle(Constants.POOL_ADDRESSES_PROVIDER);
 
-        console.log("TransparentProxyFactory deployed: ", address(transparentProxyFactory));
+        console.log("StataOracle deployed: ", address(stataOracle));
 
         vm.stopBroadcast();
     }

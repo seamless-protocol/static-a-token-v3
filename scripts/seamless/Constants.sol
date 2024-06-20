@@ -31,6 +31,5 @@ library Constants {
 
     address constant TIMELOCK_SHORT = 0x639d2dD24304aC2e6A691d8c1cFf4a2665925fee;
 
-    // todo: add address after deployment
-    address constant TRANSPARENT_PROXY_FACTORY = address(0);
+    address constant TRANSPARENT_PROXY_FACTORY = 0x71d90C266b9Eb9A41FE8F875ddBddc3FadcF1b5d;
 }
