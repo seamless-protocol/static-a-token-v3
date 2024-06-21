@@ -67,9 +67,6 @@ contract RewardsSeamlessPoolTests is BaseTest {
     uint256 rewardsPool = _getPoolRewards(user);
     uint256 rewardsStatAToken = staticATokenLM.getClaimableRewards(user, REWARD_TOKEN);
 
-    console.log(rewardsPool);
-    console.log(rewardsStatAToken);
-
     assertApproxEqAbs(rewardsPool, rewardsStatAToken, 1);
   }
 
