@@ -572,11 +572,11 @@ contract StaticATokenLM is
   }
 
   /**
-   * @notice Compute the pending in WAD. Pending is the amount to add (not yet unclaimed) rewards in WAD.
+   * @notice Compute the pending rewards. Pending is the amount to add (not yet unclaimed) rewards.
    * @param balance The balance of the user
    * @param rewardsIndexOnLastInteraction The index which was on the last interaction of the user
    * @param currentRewardsIndex The current rewards index in the system
-   * @return The amount of pending rewards in WAD
+   * @return The amount of pending rewards
    */
   function _getPendingRewards(
     uint256 balance,

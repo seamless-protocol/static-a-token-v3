@@ -65,9 +65,13 @@ contract RewardsSeamlessPoolTests is BaseTest {
     _skipBlocks(uint128(skipBlocks));
 
     uint256 rewardsPool = _getPoolRewards(user);
-    uint256 rewardsStatAToken = staticATokenLM.getClaimableRewards(user, REWARD_TOKEN);
+    uint256 rewardsUserStatAToken = staticATokenLM.getClaimableRewards(user, REWARD_TOKEN);
+    uint256 rewardsTotalStatAToken = staticATokenLM.getTotalClaimableRewards(REWARD_TOKEN);
 
-    assertApproxEqAbs(rewardsPool, rewardsStatAToken, 1);
+    assertEq(rewardsPool, rewardsTotalStatAToken);
+
+    // at most 1 wei dust rewards can be left in the contract
+    assertLe(rewardsTotalStatAToken - rewardsUserStatAToken, 1);
   }
 
   /// @dev test confirming that existing user can deposit part of his aTokens to the StaticATokenLM 
