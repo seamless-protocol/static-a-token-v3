@@ -346,7 +346,7 @@ contract StaticATokenLMTest is BaseTest {
     assertGt(claimableUser1, 0);
 
     // with new calculation there can be 1 wei dust left in rewards
-    assertLe(staticATokenLM.getTotalClaimableRewards(REWARD_TOKEN()), 1);
+    assertEq(staticATokenLM.getTotalClaimableRewards(REWARD_TOKEN()), 1);
     assertEq(staticATokenLM.getClaimableRewards(user, REWARD_TOKEN()), 0);
     assertEq(staticATokenLM.getClaimableRewards(user1, REWARD_TOKEN()), 0);
   }
