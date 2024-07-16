@@ -60,6 +60,8 @@ contract StaticATokenLM is
   mapping(address => RewardIndexCache) internal _startIndex;
   mapping(address => mapping(address => UserRewardsData)) internal _userRewardsData;
 
+  uint256 constant PRECISION = 1e27;
+
   constructor(IPool pool, IRewardsController rewardsController) {
     POOL = pool;
     INCENTIVES_CONTROLLER = rewardsController;
@@ -570,23 +572,21 @@ contract StaticATokenLM is
   }
 
   /**
-   * @notice Compute the pending in WAD. Pending is the amount to add (not yet unclaimed) rewards in WAD.
+   * @notice Compute the pending rewards. Pending is the amount to add (not yet unclaimed) rewards.
    * @param balance The balance of the user
    * @param rewardsIndexOnLastInteraction The index which was on the last interaction of the user
    * @param currentRewardsIndex The current rewards index in the system
-   * @param assetUnit One unit of asset (10**decimals)
-   * @return The amount of pending rewards in WAD
+   * @return The amount of pending rewards
    */
   function _getPendingRewards(
     uint256 balance,
     uint256 rewardsIndexOnLastInteraction,
-    uint256 currentRewardsIndex,
-    uint256 assetUnit
+    uint256 currentRewardsIndex
   ) internal pure returns (uint256) {
     if (balance == 0) {
       return 0;
     }
-    return (balance * (currentRewardsIndex - rewardsIndexOnLastInteraction)) / assetUnit;
+    return (balance * (currentRewardsIndex - rewardsIndexOnLastInteraction)) / PRECISION;
   }
 
   /**
@@ -606,7 +606,6 @@ contract StaticATokenLM is
     RewardIndexCache memory rewardsIndexCache = _startIndex[reward];
     require(rewardsIndexCache.isRegistered == true, StaticATokenErrors.REWARD_NOT_INITIALIZED);
     UserRewardsData memory currentUserRewardsData = _userRewardsData[user][reward];
-    uint256 assetUnit = 10 ** decimals;
     return
       currentUserRewardsData.unclaimedRewards +
       _getPendingRewards(
@@ -614,8 +613,7 @@ contract StaticATokenLM is
         currentUserRewardsData.rewardsIndexOnLastInteraction == 0
           ? rewardsIndexCache.lastUpdatedIndex
           : currentUserRewardsData.rewardsIndexOnLastInteraction,
-        currentRewardsIndex,
-        assetUnit
+        currentRewardsIndex
       );
   }
 
