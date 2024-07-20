@@ -42,6 +42,23 @@ For this project, the security procedures applied/being finished are:
 
 ## Development
 
+### Base Mainnet
+
+| Contract                     | Address                                      |
+| ---------------------------- | -------------------------------------------- | 
+| StaticATokenFactory          | `0x6Bb79764b405955a22C2e850c40d9DAF82A3f407` | 
+| StataOracle                  | `0x5c24D71F079443384FD47CdaD2372C9aeD653163` |
+| Static Seamless USDbC        | `0xd32906B4EbA7F0ca077352152073188b7D74AAe5` |
+| Static Seamless WETH         | `0x527E4cd7A406a65af222c8D5062759491365CA44` | 
+| Static Seamless cbETH        | `0x508A60c7227e3623Fcb9EEf75934A288D10Fbaf2` | 
+| Static Seamless USDC         | `0x96474402180b5e468A912aE3034A9B122d6d4f19` | 
+| Static Seamless DAI          | `0xD3531DA85E9892A2B094b432914cfDbD676bd9bA` | 
+| Static Seamless wstETH       | `0xB969a4189625b5A55E9d65a57A9F3CBc2714b270` | 
+| Static Seamless SEAM         | `0x41dfec21b709FD5e7e82171E1699D641c1Ef1136` | 
+| Static Seamless DEGEN        | `0x87FECcbcBa4ac9B9CA38a24A9ea07380Ad04dD64` | 
+| Static Seamless AERO         | `0x511f4b406949a1C3E4267A9a165A163FA07D30D0` | 
+| Static Seamless BRETT        | `0xFE3020d26Aa48dd21d0417B4255e24d34Ef2c8b1` | 
+
 This project uses [Foundry](https://getfoundry.sh). See the [book](https://book.getfoundry.sh/getting-started/installation.html) for detailed instructions on how to install and use Foundry.
 The template ships with sensible default so you can use default `foundry` commands without resorting to `MakeFile`.
 
