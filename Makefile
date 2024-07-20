@@ -19,3 +19,7 @@ download :; cast etherscan-source --chain ${chain} -d src/etherscan/${chain}_${a
 git-diff :
 	@mkdir -p diffs
 	@printf '%s\n%s\n%s\n' "\`\`\`diff" "$$(git diff --no-index --diff-algorithm=patience --ignore-space-at-eol ${before} ${after})" "\`\`\`" > diffs/${out}.md
+
+# Deploy Seamless
+deploy-SeamlessStaticATokenFactory :; forge script scripts/seamless/DeploySeamlessStaticATokenFactory.s.sol --tc DeploySeamlessStaticATokenFactory --force --rpc-url base --chain base --slow --broadcast --verify --delay 5 -vvvv
+deploy-StataOracle :; forge script scripts/seamless/DeployStataOracle.s.sol --tc DeployStataOracle --force --rpc-url base --chain base --slow --broadcast --verify --delay 5 -vvvv
