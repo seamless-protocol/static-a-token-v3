@@ -30,6 +30,7 @@ async function refreshRewards(aTokenAddress, signer) {
 }
 
 // Entrypoint for the action
+// This action is called on every IRewardsDistributor.AssetConfigUpdated event
 exports.handler = async function (payload) {
   const client = new Defender(payload);
 
@@ -38,6 +39,7 @@ exports.handler = async function (payload) {
       speed: 'fast',
   });
 
+  // from the IRewardsDistributor.AssetConfigUpdated event
   const aTokenAddress = payload.request.body.matchReasons.params.asset;
 
   await refreshRewards(aTokenAddress, signer);

@@ -22,6 +22,7 @@ async function createStaticAToken(underlyingAddress, signer) {
 }
 
 // Entrypoint for the action
+// This action is called on every IPoolConfigurator.ReserveInitialized event
 exports.handler = async function (payload) {
   const client = new Defender(payload);
 
@@ -30,6 +31,7 @@ exports.handler = async function (payload) {
       speed: 'fast',
   });
 
+  // from the IPoolConfigurator.ReserveInitialized event
   const underlyingAddress = payload.request.body.matchReasons.params.asset;
 
   await createStaticAToken(underlyingAddress, signer);
