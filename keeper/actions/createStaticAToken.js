@@ -1,5 +1,5 @@
 const { ethers } = require("ethers");
-const { Defender } = require('@openzeppelin/defender-sdk');
+const { DefenderRelaySigner, DefenderRelayProvider } = require('defender-relay-client/lib/ethers');
 
 const staticATokenFactoryABI = ["function createStaticATokens(address[] memory underlyings) external returns (address[] memory)"];
 const staticATokenFactoryAddress = '0x6bb79764b405955a22c2e850c40d9daf82a3f407';
@@ -24,15 +24,16 @@ async function createStaticAToken(underlyingAddress, signer) {
 // Entrypoint for the action
 // This action is called on every IPoolConfigurator.ReserveInitialized event
 exports.handler = async function (payload) {
-  const client = new Defender(payload);
+  const provider = new DefenderRelayProvider(payload);
+  const signer = new DefenderRelaySigner(payload, provider, { speed: 'fast' });
 
-  const provider = client.relaySigner.getProvider();
-  const signer = client.relaySigner.getSigner(provider, {
-      speed: 'fast',
-  });
+  console.log("=== body ===");
+  console.log(payload.request.body);
+  console.log("=== matchReasons ===");
+  console.log(payload.request.body.matchReasons);
 
   // from the IPoolConfigurator.ReserveInitialized event
-  const underlyingAddress = payload.request.body.matchReasons.params.asset;
+  const underlyingAddress = payload.request.body.matchReasons[0].params.asset;
 
   await createStaticAToken(underlyingAddress, signer);
 }

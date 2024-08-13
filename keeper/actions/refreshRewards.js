@@ -1,5 +1,5 @@
 const { ethers } = require("ethers");
-const { Defender } = require('@openzeppelin/defender-sdk');
+const { DefenderRelaySigner, DefenderRelayProvider } = require('defender-relay-client/lib/ethers');
 
 const staticATokenABI = ["function refreshRewardTokens() external"];
 
@@ -32,15 +32,16 @@ async function refreshRewards(aTokenAddress, signer) {
 // Entrypoint for the action
 // This action is called on every IRewardsDistributor.AssetConfigUpdated event
 exports.handler = async function (payload) {
-  const client = new Defender(payload);
+  const provider = new DefenderRelayProvider(payload);
+  const signer = new DefenderRelaySigner(payload, provider, { speed: 'fast' });
 
-  const provider = client.relaySigner.getProvider();
-  const signer = client.relaySigner.getSigner(provider, {
-      speed: 'fast',
-  });
+  console.log("=== body ===");
+  console.log(payload.request.body);
+  console.log("=== matchReasons ===");
+  console.log(payload.request.body.matchReasons);
 
   // from the IRewardsDistributor.AssetConfigUpdated event
-  const aTokenAddress = payload.request.body.matchReasons.params.asset;
+  const aTokenAddress = payload.request.body.matchReasons[0].params.asset;
 
   await refreshRewards(aTokenAddress, signer);
 }
