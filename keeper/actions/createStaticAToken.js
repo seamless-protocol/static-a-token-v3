@@ -8,12 +8,12 @@ const staticATokenFactoryAddress = '0x6bb79764b405955a22c2e850c40d9daf82a3f407';
 async function createStaticAToken(underlyingAddress, signer) {
   const staticATokenFactory = new ethers.Contract(staticATokenFactoryAddress, staticATokenFactoryABI, signer);
 
-  const newStatciATokenAddress = 
+  const newStaticATokenAddress = 
     await staticATokenFactory.callStatic.createStaticATokens([underlyingAddress]);
 
   const tx = await staticATokenFactory.createStaticATokens([underlyingAddress]);
   await tx.wait();
-  console.log(`New staticAToken created for the underlying:${underlyingAddress} staticAToken:${newStatciATokenAddress[0]}`);
+  console.log(`New staticAToken created for the underlying:${underlyingAddress} staticAToken:${newStaticATokenAddress[0]}`);
   return { tx: tx.hash }
 }
 
