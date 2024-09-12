@@ -19,14 +19,10 @@ async function refreshRewards(aTokenAddress, signer) {
   const staticATokenAddress = staticATokenFactory.getStaticAToken(underlyingAddress);
   const staticAToken = new ethers.Contract(staticATokenAddress, staticATokenABI, signer);
 
-  try {
-    const tx = await staticAToken.refreshRewardTokens();
-    await tx.wait();
-    console.log(`Refreshed rewards on underlying:${underlying} staticAToken:${staticATokenAddress}`);
-    return { tx: tx.hash }
-  } catch (err) {
-    console.error('An error occurred on refreshRewards call: ', err);
-  }
+  const tx = await staticAToken.refreshRewardTokens();
+  await tx.wait();
+  console.log(`Refreshed rewards on underlying:${underlying} staticAToken:${staticATokenAddress}`);
+  return { tx: tx.hash }
 }
 
 // Entrypoint for the action

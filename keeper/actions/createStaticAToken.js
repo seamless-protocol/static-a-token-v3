@@ -8,17 +8,13 @@ const staticATokenFactoryAddress = '0x6bb79764b405955a22c2e850c40d9daf82a3f407';
 async function createStaticAToken(underlyingAddress, signer) {
   const staticATokenFactory = new ethers.Contract(staticATokenFactoryAddress, staticATokenFactoryABI, signer);
 
-  try {
-    const newStatciATokenAddress = 
-      await staticATokenFactory.callStatic.createStaticATokens([underlyingAddress]);
+  const newStatciATokenAddress = 
+    await staticATokenFactory.callStatic.createStaticATokens([underlyingAddress]);
 
-    let tx = await staticATokenFactory.createStaticATokens([underlyingAddress]);
-    await tx.wait();
-    console.log(`New staticAToken created for the underlying:${underlyingAddress} staticAToken:${newStatciATokenAddress}`);
-    return { tx: tx.hash }
-  } catch (err) {
-    console.error('An error occurred on creating staticAtoken call: ', err);
-  }
+  const tx = await staticATokenFactory.createStaticATokens([underlyingAddress]);
+  await tx.wait();
+  console.log(`New staticAToken created for the underlying:${underlyingAddress} staticAToken:${newStatciATokenAddress[0]}`);
+  return { tx: tx.hash }
 }
 
 // Entrypoint for the action
@@ -33,9 +29,9 @@ exports.handler = async function (payload) {
   console.log(payload.request.body.matchReasons);
 
   // from the IPoolConfigurator.ReserveInitialized event
-  const underlyingAddress = payload.request.body.matchReasons[0].params.asset;
-
-  await createStaticAToken(underlyingAddress, signer);
+  for(const matchReason of payload.request.body.matchReasons) {
+    await createStaticAToken(matchReason.params.asset, signer);
+  }
 }
 
 // unit testing
