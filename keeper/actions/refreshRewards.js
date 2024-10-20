@@ -21,7 +21,7 @@ async function refreshRewards(aTokenAddress, signer) {
 
   const tx = await staticAToken.refreshRewardTokens();
   await tx.wait();
-  console.log(`Refreshed rewards on underlying:${underlying} staticAToken:${staticATokenAddress}`);
+  console.log(`Refreshed rewards on underlying:${underlyingAddress} staticAToken:${staticATokenAddress}`);
   return { tx: tx.hash }
 }
 
