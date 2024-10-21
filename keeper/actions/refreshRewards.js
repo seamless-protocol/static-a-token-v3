@@ -37,9 +37,9 @@ exports.handler = async function (payload) {
   console.log(payload.request.body.matchReasons);
 
   // from the IRewardsDistributor.AssetConfigUpdated event
-  const aTokenAddress = payload.request.body.matchReasons[0].params.asset;
-
-  await refreshRewards(aTokenAddress, signer);
+  for(const matchReason of payload.request.body.matchReasons) {
+    await refreshRewards(matchReason.params.asset, signer);
+  }
 }
 
 // unit testing
