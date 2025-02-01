@@ -567,8 +567,7 @@ contract StaticATokenLM is
         currentRewardsIndex
       ).toUint128();
     }
-    _userRewardsData[user][rewardToken].rewardsIndexOnLastInteraction = currentRewardsIndex
-      .toUint128();
+    _userRewardsData[user][rewardToken].rewardsIndexOnLastInteraction = currentRewardsIndex;
   }
 
   /**
@@ -653,8 +652,7 @@ contract StaticATokenLM is
       }
       if (userReward > 0) {
         _userRewardsData[onBehalfOf][rewards[i]].unclaimedRewards = unclaimedReward.toUint128();
-        _userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction = currentRewardsIndex
-          .toUint128();
+        _userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction = currentRewardsIndex;
         IERC20(rewards[i]).safeTransfer(receiver, userReward);
       }
     }
@@ -679,7 +677,7 @@ contract StaticATokenLM is
     uint256 startIndex = getCurrentRewardsIndex(reward);
 
     _rewardTokens.push(reward);
-    _startIndex[reward] = RewardIndexCache(true, startIndex.toUint240());
+    _startIndex[reward] = RewardIndexCache(true, startIndex);
 
     emit RewardTokenRegistered(reward, startIndex);
   }
