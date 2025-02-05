@@ -90,6 +90,12 @@ contract StaticATokenLM is
     emit Initialized(newAToken, staticATokenName, staticATokenSymbol);
   }
 
+  function initializeV2() external reinitializer(2) {
+    for (uint256 i = 0; i < _rewardTokens.length; i++) {
+      _startIndex[_rewardTokens[i]].lastUpdatedIndex = _startIndex[_rewardTokens[i]].lastUpdatedIndex_deprecated;
+    }
+  }
+
   ///@inheritdoc IStaticATokenLM
   function refreshRewardTokens() public override {
     address[] memory rewards = INCENTIVES_CONTROLLER.getRewardsByAsset(address(_aToken));
@@ -603,8 +609,14 @@ contract StaticATokenLM is
     uint256 currentRewardsIndex
   ) internal view returns (uint256) {
     RewardIndexCache memory rewardsIndexCache = _startIndex[reward];
+
     require(rewardsIndexCache.isRegistered == true, StaticATokenErrors.REWARD_NOT_INITIALIZED);
     UserRewardsData memory currentUserRewardsData = _userRewardsData[user][reward];
+
+    if (currentUserRewardsData.rewardsIndexOnLastInteraction == 0) {
+      currentUserRewardsData.rewardsIndexOnLastInteraction = currentUserRewardsData.rewardsIndexOnLastInteraction_deprecated;
+    }
+
     return
       currentUserRewardsData.unclaimedRewards +
       _getPendingRewards(
@@ -653,6 +665,11 @@ contract StaticATokenLM is
       if (userReward > 0) {
         _userRewardsData[onBehalfOf][rewards[i]].unclaimedRewards = unclaimedReward.toUint128();
         _userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction = currentRewardsIndex;
+
+        if (_userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction_deprecated != 0) {
+          _userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction_deprecated = 0;
+        }
+
         IERC20(rewards[i]).safeTransfer(receiver, userReward);
       }
     }
@@ -677,7 +694,7 @@ contract StaticATokenLM is
     uint256 startIndex = getCurrentRewardsIndex(reward);
 
     _rewardTokens.push(reward);
-    _startIndex[reward] = RewardIndexCache(true, startIndex);
+    _startIndex[reward] = RewardIndexCache(true, 0, startIndex);
 
     emit RewardTokenRegistered(reward, startIndex);
   }

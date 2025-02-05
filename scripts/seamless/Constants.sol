@@ -32,5 +32,5 @@ library Constants {
     address constant TIMELOCK_SHORT = 0x639d2dD24304aC2e6A691d8c1cFf4a2665925fee;
 
     address constant TRANSPARENT_PROXY_FACTORY = 0x71d90C266b9Eb9A41FE8F875ddBddc3FadcF1b5d;
-    address constant STATIC_ATOKEN_FACTORY = 0x6bb79764b405955a22c2e850c40d9daf82a3f407;
+    address constant STATIC_ATOKEN_FACTORY = 0x6Bb79764b405955a22C2e850c40d9DAF82A3f407;
 }
