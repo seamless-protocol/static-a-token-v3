@@ -609,7 +609,6 @@ contract StaticATokenLM is
     uint256 currentRewardsIndex
   ) internal view returns (uint256) {
     RewardIndexCache memory rewardsIndexCache = _startIndex[reward];
-
     require(rewardsIndexCache.isRegistered == true, StaticATokenErrors.REWARD_NOT_INITIALIZED);
     UserRewardsData memory currentUserRewardsData = _userRewardsData[user][reward];
 
@@ -665,10 +664,6 @@ contract StaticATokenLM is
       if (userReward > 0) {
         _userRewardsData[onBehalfOf][rewards[i]].unclaimedRewards = unclaimedReward.toUint128();
         _userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction = currentRewardsIndex;
-
-        if (_userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction_deprecated != 0) {
-          _userRewardsData[onBehalfOf][rewards[i]].rewardsIndexOnLastInteraction_deprecated = 0;
-        }
 
         IERC20(rewards[i]).safeTransfer(receiver, userReward);
       }

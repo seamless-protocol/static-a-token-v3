@@ -8,8 +8,8 @@ import {IRewardsController} from "aave-v3-periphery/contracts/rewards/interfaces
 import {IPool} from "aave-address-book/AaveV3Ethereum.sol";
 import {Constants} from "./Constants.sol";
 import {IPoolAddressesProvider} from "aave-v3-core/contracts/interfaces/IPoolAddressesProvider.sol";
-import {StaticATokenLM} from '../../src/StaticATokenLM.sol';
-import {StaticATokenFactory} from '../../src/StaticATokenFactory.sol';
+import {StaticATokenLM} from "../../src/StaticATokenLM.sol";
+import {StaticATokenFactory} from "../../src/StaticATokenFactory.sol";
 
 contract DeployUpgradePayload is Script {
     function run() public {
@@ -25,14 +25,19 @@ contract DeployUpgradePayload is Script {
 
         IPool pool = IPool(IPoolAddressesProvider(Constants.POOL_ADDRESSES_PROVIDER).getPool());
 
-        StaticATokenLM staticImpl = new StaticATokenLM(pool, IRewardsController(Constants.REWARDS_CONTROLLER));
+        StaticATokenLM staticATokenImplementation =
+            new StaticATokenLM(pool, IRewardsController(Constants.REWARDS_CONTROLLER));
 
-        console.log("StaticATokenLM implementation deployed: ", address(staticImpl));
+        console.log("StaticATokenLM implementation deployed: ", address(staticATokenImplementation));
 
-        StaticATokenFactory factoryImpl =
-            new StaticATokenFactory(pool, Constants.TIMELOCK_SHORT, ITransparentProxyFactory(Constants.TRANSPARENT_PROXY_FACTORY), address(staticImpl));
+        StaticATokenFactory staticATokenFactoryImplementation = new StaticATokenFactory(
+            pool,
+            Constants.TIMELOCK_SHORT,
+            ITransparentProxyFactory(Constants.TRANSPARENT_PROXY_FACTORY),
+            address(staticATokenImplementation)
+        );
 
-        console.log("StaticATokenFactory implementation deployed: ", address(factoryImpl));        
+        console.log("StaticATokenFactory implementation deployed: ", address(staticATokenFactoryImplementation));
 
         vm.stopBroadcast();
     }

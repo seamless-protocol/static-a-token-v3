@@ -66,42 +66,6 @@ abstract contract UpgradePayloadTest is Test {
   }
 }
 
-contract UpgradeMainnetTest is UpgradePayloadTest('mainnet', 19376575) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployMainnet();
-  }
-}
-
-contract UpgradePolygonTest is UpgradePayloadTest('polygon', 54337710) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployPolygon();
-  }
-}
-
-contract UpgradeAvalancheTest is UpgradePayloadTest('avalanche', 42590450) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployAvalanche();
-  }
-}
-
-contract UpgradeOptimismTest is UpgradePayloadTest('optimism', 117104603) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployOptimism();
-  }
-}
-
-contract UpgradeMetisTest is UpgradePayloadTest('metis', 14812943) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployMetis();
-  }
-}
-
-contract UpgradeScrollTest is UpgradePayloadTest('scroll', 3921934) {
-  function _getPayload() internal virtual override returns (UpgradePayload) {
-    return DeployUpgrade.deployScroll();
-  }
-}
-
 contract UpgradeBaseTest is UpgradePayloadTest('base', 11985792) {
   function _getPayload() internal virtual override returns (UpgradePayload) {
     return DeployUpgrade.deployBase();
