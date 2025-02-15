@@ -24,13 +24,17 @@ interface IStaticATokenLM is IInitializableStaticATokenLM {
   }
 
   struct UserRewardsData {
-    uint128 rewardsIndexOnLastInteraction; // (in RAYs)
-    uint128 unclaimedRewards; // (in RAYs)
+    // Deprecated: This storage slot is kept to not break upgrades
+    uint128 rewardsIndexOnLastInteraction_deprecated;
+    uint128 unclaimedRewards;
+    uint256 rewardsIndexOnLastInteraction; // (in RAYs)
   }
 
   struct RewardIndexCache {
     bool isRegistered;
-    uint248 lastUpdatedIndex;
+    // Deprecated: This storage slot is kept to not break upgrades
+    uint248 lastUpdatedIndex_deprecated;
+    uint256 lastUpdatedIndex;
   }
 
   event RewardTokenRegistered(address indexed reward, uint256 startIndex);

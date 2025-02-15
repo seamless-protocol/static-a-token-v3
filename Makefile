@@ -23,3 +23,4 @@ git-diff :
 # Deploy Seamless
 deploy-SeamlessStaticATokenFactory :; forge script scripts/seamless/DeploySeamlessStaticATokenFactory.s.sol --tc DeploySeamlessStaticATokenFactory --force --rpc-url base --chain base --slow --broadcast --verify --delay 5 -vvvv
 deploy-StataOracle :; forge script scripts/seamless/DeployStataOracle.s.sol --tc DeployStataOracle --force --rpc-url base --chain base --slow --broadcast --verify --delay 5 -vvvv
+deploy-SeamlessStaticATokenUpgrade :; forge script scripts/seamless/DeployStaticATokenUpgrade.s.sol --tc DeployUpgradePayload --force --rpc-url base --chain base --slow --broadcast --verify --delay 5 -vvvv
